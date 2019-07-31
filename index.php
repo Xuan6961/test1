@@ -1,16 +1,22 @@
 <?php
-$a = 'Hello there';
-$A = 'Hello there, friend';
+require('vendor/autoload.php');
+
+use aitsydney\Product;
+$products = new Product();
+$products_result = $products -> getProducts();
+
+//create twig loader
+$loader = new Twig_Loader_Filesystem('templates');
+
+//create twin environment
+$twig = new Twig_Environment($loader);
+
+//load a twig template
+$template = $twig -> load('home.twig');
+
+//pass values to twig
+echo $template ->render([
+    'products' => $products_result,
+    'title' => 'Hello shop'
+]);
 ?>
-<!doctype html>
-<html lang="en">
-    <head>
-        <title><?php echo 'My Web page'; ?></title>
-    </head>
-    <body>
-        <h1><?php echo $a; ?></h1>
-        <?php
-            phpinfo();
-        ?>
-    </body>
-</html>

@@ -16,7 +16,7 @@ class Product extends Database{
         INNER JOIN image ON product_image.image_id = image.image_id
         ";
 
-        $statement = $this -> connection -> prepare( $query );
+        $statement = $this -> connection -> prepare($query);
         if( $statement -> execute()){
             $result = $statement ->get_result();
             $product_array = array();
