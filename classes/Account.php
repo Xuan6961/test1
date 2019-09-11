@@ -1,7 +1,7 @@
 <?php
 namespace aitsydney;
 
-use aitsydney\Datebase;
+//use aitsydney\Datebase;
 
 class Account extends Database{
 
@@ -11,9 +11,8 @@ class Account extends Database{
 
     public function register( $email, $password ){
         $query = "
-            INSERT INTO account (account_id , email, password, created, accessed, updated)
-            VALUES ( UNHEX(?), ?, ?, NOW(), NOW(), NOW() )
-        ";
+        INSERT INTO account (account_id , email, password, created, accessed, updated)
+            VALUES ( UNHEX(?), ?, ?, NOW(), NOW(), NOW())";
 
         $register_errors = array();
         $response = array();
@@ -31,14 +30,14 @@ class Account extends Database{
             $hash = password_hash( $password, PASSWORD_DEFAULT );
             $account_id = $this -> createAccountId();
             try{
-                if( $statement = $this -> connection -> prepare( $query ) == false ){
-                    throw( new \Exception('query error') );
+                if(!$statement = $this -> connection -> prepare( $query )){
+                    throw( new Exception('query error') );                   
                 }
 
                 $statement -> bind_param('sss', $account_id, $email, $hash );
 
-                if( $statement -> exeute() == false ){
-                    throw( new \Exception('failed to execute') );
+                if( !$statement -> execute()){
+                    throw( new Exception('failed to execute') );
                 }
                 else{
                     //account is created in database
